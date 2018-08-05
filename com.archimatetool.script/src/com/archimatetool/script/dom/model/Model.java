@@ -176,4 +176,30 @@ public class Model {
         
         return ArchimateModelUtils.isValidRelationship(sourceClass, targetClass, relClass);
     }
+    
+    /**
+     * @param relationshipType
+     * @param sourceType
+     * @param targetType
+     * @return True if relationship type is derived between source and target
+     */
+    public boolean isDerivedRelationship(String relationshipType, String sourceType, String targetType) {
+        EClass relClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(ModelUtil.getCamelCase(relationshipType));
+        EClass sourceClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(ModelUtil.getCamelCase(sourceType));
+        EClass targetClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(ModelUtil.getCamelCase(targetType));
+        
+        if(relClass == null || sourceClass == null || targetClass == null) {
+            throw new ArchiScriptException("Invalid type name."); //$NON-NLS-1$
+        }
+        
+        return ArchimateModelUtils.isDerivedRelationship(sourceClass, targetClass, relClass);
+    }
+    
+    /**
+     * @param relProxy
+     * @return True if relationship is a derived relationship
+     */
+    public boolean isDerivedRelationship(ArchimateRelationshipProxy relProxy) {
+        return isDerivedRelationship(relProxy.getType(), relProxy.getSource().getType(), relProxy.getTarget().getType());
+    }
 }
