@@ -226,43 +226,59 @@ public class EObjectProxyCollection extends ArrayList<EObjectProxy> implements I
     }
     
     /**
-     * Return the list of properties' key for the first object in the collection
+     * Return the list of attributes' key for the first object in the collection
      * @return
      */
+    @Deprecated
     public List<String> prop() {
     	return isEmpty() ? null : first().prop();
     }
     
+    public List<String> attribute() {
+        return prop();
+    }
+    
     /**
-     * Return a property value of the first object in the collection.
-     * If multiple properties exist with the same key, then return only the first one.
-     * @param propKey
+     * Return an attribute value of the first object in the collection.
+     * If multiple attributes exist with the same key, then return only the first one.
+     * @param attKey
      * @return
      */
+    @Deprecated
     public String prop(String propKey) {
     	return isEmpty() ? null : first().prop(propKey);
     }
     
+    public String attribute(String attKey) {
+        return prop(attKey);
+    }
+    
     /**
-     * Return a property value of the first object in the collection.
-     * If multiple properties exist with the same key, then return only
+     * Return an attribute value of the first object in the collection.
+     * If multiple attributes exist with the same key, then return only
      * the first one (if duplicate=false) or an array with all values
      * (if duplicate=true).
-     * @param propKey
+     * @param attKey
      * @param allowDuplicate
      * @return
      */
+    @Deprecated
     public Object prop(String propKey, boolean allowDuplicate) {
     	return isEmpty() ? null : first().prop(propKey, allowDuplicate);
     }
     
+    public Object attribute(String attKey, boolean allowDuplicate) {
+        return prop(attKey, allowDuplicate);
+    }
+    
     /**
-     * Sets a property for every objects.
-     * Property is updated if it already exists.
-     * @param propKey
-     * @param propValue
+     * Sets an attribute for every object.
+     * Attributes is updated if it already exists.
+     * @param attKey
+     * @param attValue
      * @return
      */
+    @Deprecated
     public EObjectProxyCollection prop(String propKey, String propValue) {
 	    for(EObjectProxy object : this) {
 	        object.prop(propKey, propValue);
@@ -270,16 +286,21 @@ public class EObjectProxyCollection extends ArrayList<EObjectProxy> implements I
 	    
 	    return this;
     }
+    
+    public EObjectProxyCollection attribute(String attKey, String attValue) {
+        return prop(attKey, attValue);
+    }
 
     /**
-     * Sets a property for every objects.
-     * Property is updated if it already exists (if duplicate=false)
+     * Sets an attribute for every object.
+     * Attribute is updated if it already exists (if duplicate=false)
      * or added anyway (if duplicate=true).
-     * @param propKey
-     * @param propValue
+     * @param attKey
+     * @param attValue
      * @param allowDuplicate
      * @return
      */
+    @Deprecated
     public EObjectProxyCollection prop(String propKey, String propValue, boolean allowDuplicate) {
 	    for(EObjectProxy object : this) {
 	        object.prop(propKey, propValue, allowDuplicate);
@@ -287,11 +308,16 @@ public class EObjectProxyCollection extends ArrayList<EObjectProxy> implements I
 	    
 	    return this;
     }
+    
+    public EObjectProxyCollection attribute(String attKey, String attValue, boolean allowDuplicate) {
+        return prop(attKey, attValue, allowDuplicate);
+    }
 
     /**
-     * Remove all instances of property "key" on each object of the collection. Returns the updated collection
+     * Remove all instances of attribute "key" on each object of the collection. Returns the updated collection
      * @param key
      */
+    @Deprecated
     public EObjectProxyCollection removeProp(String key) {
         for(EObjectProxy object : this) {
             object.removeProp(key);
@@ -299,18 +325,27 @@ public class EObjectProxyCollection extends ArrayList<EObjectProxy> implements I
         
         return this;
     }
+    
+    public EObjectProxyCollection removeAttribute(String key) {
+        return removeProp(key);
+    }
 
     /**
-     * Remove (all instances of) property "key" that matches "value" on each object of the collection. Returns the updated collection.
+     * Remove (all instances of) attribute "key" that matches "value" on each object of the collection. Returns the updated collection.
      * @param key
      * @param value
      */
+    @Deprecated
     public EObjectProxyCollection removeProp(String key, String value) {
         for(EObjectProxy object : this) {
             object.removeProp(key, value);
         }
         
         return this;
+    }
+    
+    public EObjectProxyCollection removeAttribute(String key, String value) {
+        return removeProp(key, value);
     }
 
     public Object attr(String attribute) {

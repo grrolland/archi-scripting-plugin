@@ -11,17 +11,17 @@ import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 
 /**
- * RemovePropertiesCommand
+ * RemoveAttributesCommand
  * 
  * @author Phillip Beauvoir
  */
-public class RemovePropertiesCommand extends ScriptCommand {
+public class RemoveAttributesCommand extends ScriptCommand {
    
     private IProperties eObject;
     private List<IProperty> toRemove;
 
-    public RemovePropertiesCommand(IProperties eObject, List<IProperty> toRemove) {
-        super("properties", eObject); //$NON-NLS-1$
+    public RemoveAttributesCommand(IProperties eObject, List<IProperty> toRemove) {
+        super("attributes", eObject); //$NON-NLS-1$
         this.eObject = eObject;
         this.toRemove = toRemove;
     }

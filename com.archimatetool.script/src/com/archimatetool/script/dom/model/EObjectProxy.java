@@ -30,9 +30,9 @@ import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.script.ArchiScriptException;
-import com.archimatetool.script.commands.AddPropertyCommand;
+import com.archimatetool.script.commands.AddAttributeCommand;
 import com.archimatetool.script.commands.CommandHandler;
-import com.archimatetool.script.commands.RemovePropertiesCommand;
+import com.archimatetool.script.commands.RemoveAttributesCommand;
 import com.archimatetool.script.commands.SetCommand;
 
 /**
@@ -257,35 +257,46 @@ public abstract class EObjectProxy implements IModelConstants, Comparable<EObjec
         }
     }
 
-	/**
-     * Return the list of properties' key
+    /**
+     * Return the list of attributes' key
      * @return
      */
+    @Deprecated
     public List<String> prop() {
-    	return getPropertyKey();
+    	return getAttributeKey();
+    }
+    
+    public List<String> attribute() {
+        return prop();
     }
     
     /**
      * Return a property value.
      * If multiple properties exist with the same key, then return only the first one.
-     * @param propKey
+     * @param attKey
      * @return
      */
+    @Deprecated
     public String prop(String propKey) {
     	return (String)prop(propKey, false);
     }
     
+    public String attribute(String attKey) {
+        return prop(attKey);
+    }
+    
     /**
-     * Return a property value.
-     * If multiple properties exist with the same key, then return only
+     * Return an attribute value.
+     * If multiple attributes exist with the same key, then return only
      * the first one (if duplicate=false) or a list with all values
      * (if duplicate=true).
-     * @param propKey
+     * @param attKey
      * @param allowDuplicate
      * @return
      */
+    @Deprecated
     public Object prop(String propKey, boolean allowDuplicate) {
-    	List<String> propValues = getPropertyValue(propKey);
+    	List<String> propValues = getAttributeValue(propKey);
     	
     	if(propValues.isEmpty()) {
             return null;
@@ -298,51 +309,64 @@ public abstract class EObjectProxy implements IModelConstants, Comparable<EObjec
     	}
     }
     
+    public Object attribute(String attKey, boolean allowDuplicate) {
+        return prop(attKey, allowDuplicate);
+    }
+
     /**
-     * Sets a property.
-     * Property is updated if it already exists.
-     * @param propKey
-     * @param propValue
+     * Sets an attribute.
+     * Attribute is updated if it already exists.
+     * @param attKey
+     * @param attValue
      * @return
      */
+    @Deprecated
     public EObjectProxy prop(String propKey, String propValue) {
     	return prop(propKey, propValue, false);
     }
     
-    /**
-     * Sets a property.
-     * Property is updated if it already exists (if duplicate=false)
-     * or added anyway (if duplicate=true).
-     * @param propKey
-     * @param propValue
-     * @param allowDuplicate
-     * @return
-     */
-    public EObjectProxy prop(String propKey, String propValue, boolean allowDuplicate) {
-    	return allowDuplicate ? addProperty(propKey, propValue) : addOrUpdateProperty(propKey, propValue);
+    public EObjectProxy attribute(String attKey, String attValue) {
+        return prop(attKey, attValue);
     }
     
     /**
-     * Add a property to this object
+     * Sets an attribute.
+     * Attribute is updated if it already exists (if duplicate=false)
+     * or added anyway (if duplicate=true).
+     * @param attKey
+     * @param attValue
+     * @param allowDuplicate
+     * @return
+     */
+    @Deprecated
+    public EObjectProxy prop(String propKey, String propValue, boolean allowDuplicate) {
+    	return allowDuplicate ? addAttribute(propKey, propValue) : addOrUpdateAttribute(propKey, propValue);
+    }
+    
+    public EObjectProxy attribute(String attKey, String attValue, boolean allowDuplicate) {
+        return prop(attKey, attValue, allowDuplicate);
+    }
+
+    /**
+     * Add an attribute. to this object
      * @param key
      * @param value
      */
-    private EObjectProxy addProperty(String key, String value) {
-        
+    private EObjectProxy addAttribute(String key, String value) {
         if(getReferencedConcept() instanceof IProperties && key != null && value != null) {
-            CommandHandler.executeCommand(new AddPropertyCommand((IProperties)getReferencedConcept(), key, value));
+            CommandHandler.executeCommand(new AddAttributeCommand((IProperties)getReferencedConcept(), key, value));
         }
         
         return this;
     }
-    
+
     /**
-     * Add the property only if it doesn't already exists, or update it if it does.
+     * Add the attribute only if it doesn't already exists, or update it if it does.
      * If this object already has multiple properties matching the key, all of them are updated.
      * @param key
      * @param value
      */
-    private EObjectProxy addOrUpdateProperty(String key, String value) {
+    private EObjectProxy addOrUpdateAttribute(String key, String value) {
         if(getReferencedConcept() instanceof IProperties && key != null && value != null) {
             boolean updated = false;
             
@@ -355,7 +379,7 @@ public abstract class EObjectProxy implements IModelConstants, Comparable<EObjec
             }
             
             if(!updated) {
-                addProperty(key, value);
+                addAttribute(key, value);
             }
         }
         
@@ -363,9 +387,9 @@ public abstract class EObjectProxy implements IModelConstants, Comparable<EObjec
     }
 
     /**
-     * @return a list of strings containing the list of properties keys. A key appears only once (duplicates are removed)
+     * @return a list of strings containing the list of Attributes keys. A key appears only once (duplicates are removed)
      */
-    private List<String> getPropertyKey() {
+    private List<String> getAttributeKey() {
         List<String> list = new ArrayList<String>();
         
         if(getReferencedConcept() instanceof IProperties) {
@@ -381,9 +405,9 @@ public abstract class EObjectProxy implements IModelConstants, Comparable<EObjec
     
     /**
      * @param key
-     * @return a list containing the value of property named "key"
+     * @return a list containing the value of Attribute named "key"
      */
-    private List<String> getPropertyValue(String key) {
+    private List<String> getAttributeValue(String key) {
         List<String> list = new ArrayList<String>();
         
         if(getReferencedConcept() instanceof IProperties) {
@@ -398,17 +422,23 @@ public abstract class EObjectProxy implements IModelConstants, Comparable<EObjec
     }
     
     /**
-     * Remove all instances of property "key" 
+     * Remove all instances of Attribute "key" 
      * @param key
      */
+    @Deprecated
     public EObjectProxy removeProp(String key) {
         return removeProp(key, null);
     }
     
+    public EObjectProxy removeAttribute(String key) {
+        return removeProp(key);
+    }
+    
     /**
-     * Remove (all instances of) property "key" that matches "value"
+     * Remove (all instances of) Attribute "key" that matches "value"
      * @param key
      */
+    @Deprecated
     public EObjectProxy removeProp(String key, String value) {
         if(getReferencedConcept() instanceof IProperties) {
             List<IProperty> toRemove = new ArrayList<IProperty>();
@@ -422,12 +452,16 @@ public abstract class EObjectProxy implements IModelConstants, Comparable<EObjec
                 }
             }
             
-            CommandHandler.executeCommand(new RemovePropertiesCommand((IProperties)getReferencedConcept(), toRemove));
+            CommandHandler.executeCommand(new RemoveAttributesCommand((IProperties)getReferencedConcept(), toRemove));
         }
         
         return this;
     }
 
+    public EObjectProxy removeAttribute(String key, String value) {
+        return removeProp(key, value);
+    }
+    
     protected Object attr(String attribute) {
         switch(attribute) {
             case TYPE:

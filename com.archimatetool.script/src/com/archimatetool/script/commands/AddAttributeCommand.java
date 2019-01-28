@@ -10,17 +10,17 @@ import com.archimatetool.model.IProperties;
 import com.archimatetool.model.IProperty;
 
 /**
- * AddPropertyCommand
+ * AddAttributeCommand
  * 
  * @author Phillip Beauvoir
  */
-public class AddPropertyCommand extends ScriptCommand {
+public class AddAttributeCommand extends ScriptCommand {
    
     private IProperties eObject;
     private IProperty property;
 
-    public AddPropertyCommand(IProperties eObject, String key, String value) {
-        super("property", eObject); //$NON-NLS-1$
+    public AddAttributeCommand(IProperties eObject, String key, String value) {
+        super("attribute", eObject); //$NON-NLS-1$
         this.eObject = eObject;
         
         // TODO use IArchimateFactory.eINSTANCE.createProperty(key, value);
