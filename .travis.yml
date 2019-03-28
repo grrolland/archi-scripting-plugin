@@ -1,0 +1,14 @@
+# Use latest stuff
+dist: xenial
+
+language: java
+
+jdk:
+  - openjdk8
+
+# Creates a display for SWT
+services:
+  - xvfb
+
+script:
+  - mvn clean verify
